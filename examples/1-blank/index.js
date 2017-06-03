@@ -5,11 +5,34 @@
 import React, { Component } from 'react';
 import {
   AppRegistry,
-} from '../../src/react-game-engine';
+} from 'react-game-engine';
+import {
+  View,
+} from 'react-native';
 
 class Game extends Component {
   render() {
-    return null;
+    return (
+      <View>
+        <View>
+          <View>
+          </View>
+        </View>
+
+        <View>
+          <View>
+          </View>
+        </View>
+        <View>
+          <View>
+          </View>
+          <View>
+          </View>
+          <View>
+          </View>
+        </View>
+      </View>
+    );
   }
 }
 
