@@ -4,6 +4,7 @@
  */
 import './Libraries/NativeModules';
 import './Libraries/NativeComponents';
+import './Libraries/GameEngine/native';
 
 import Bridge from './Libraries/Bridge';
 

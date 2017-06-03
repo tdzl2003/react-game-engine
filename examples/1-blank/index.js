@@ -4,11 +4,12 @@
 
 import React, { Component } from 'react';
 import {
-  AppRegistry,
+  GLSurface,
 } from 'react-game-engine';
 import {
   View,
   StyleSheet,
+  AppRegistry,
 } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -28,12 +29,8 @@ const styles = StyleSheet.create({
 class Game extends Component {
   render() {
     return (
-      <View style={styles.container}>
-        <View style={styles.blue}>
-        </View>
-        <View style={styles.red}>
-        </View>
-      </View>
+      <GLSurface style={styles.container}>
+      </GLSurface>
     );
   }
 }
