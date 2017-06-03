@@ -5,7 +5,15 @@
 import {
   requireNativeComponent
 } from 'react-native';
+import {
+  PropTypes
+} from 'React';
 
-const GLSurface = requireNativeComponent('GLSurface', null);
+const GLSurface = requireNativeComponent('GLSurface', {
+  propTypes: {
+    onSurfaceCreated: PropTypes.func,
+    onSizeChanged: PropTypes.func,
+  },
+});
 
 export default GLSurface;

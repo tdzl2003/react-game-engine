@@ -168,4 +168,8 @@ export default class Bridge {
       // TODO: Implement without worker.
     }
   }
+
+  sendEvent(tag, type, nativeEvent) {
+    this.exec('RCTEventEmitter', 'receiveEvent', [tag, type, nativeEvent]);
+  }
 }

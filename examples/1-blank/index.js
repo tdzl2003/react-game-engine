@@ -27,9 +27,19 @@ const styles = StyleSheet.create({
 });
 
 class Game extends Component {
+  onSurfaceCreated = (ev) => {
+    console.log('onSurfaceCreated: ', ev.nativeEvent);
+  };
+  onSizeChanged = (ev) => {
+    console.log('onSizeChanged: ', ev.nativeEvent);
+  };
   render() {
     return (
-      <GLSurface style={styles.container}>
+      <GLSurface
+        style={styles.container}
+        onSurfaceCreated = {this.onSurfaceCreated}
+        onSizeChanged = {this.onSizeChanged}
+      >
       </GLSurface>
     );
   }

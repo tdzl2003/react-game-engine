@@ -6,7 +6,7 @@ import { reactMethod, reactPromiseMethod, reactModule } from './decorators';
 import { nativeComponentClasses } from '../NativeComponents/decorators';
 import RootViewManager from "../NativeComponents/RootViewManager";
 
-const DEBUG = __DEV__;
+const DEBUG = false;
 
 const ROOT_VIEW_TAG_INCREMENT = 10;
 
@@ -25,15 +25,25 @@ export default class UIManager {
   constructor(bridge) {
     bridge.uiManager = this;
 
-    const nativeComponentsInfo = {};
+    const customBubblingEventTypes = {};
+    const customDirectEventTypes = {};
+    const nativeComponentsInfo = {
+      customBubblingEventTypes, customDirectEventTypes,
+    };
 
-    nativeComponentClasses.forEach(clazz => {
+    for (const clazz of nativeComponentClasses) {
       const name = clazz.__nativeComponentName;
-      this.viewManagers[name] = new clazz();
+      const instance = this.viewManagers[name] = new clazz(bridge);
       nativeComponentsInfo[name] = {
-        NativeProps: {},
+        NativeProps: instance.__nativeProps || {},
       }
-    });
+      if (instance.__customBubblingEventTypes) {
+        Object.assign(customBubblingEventTypes, instance.__customBubblingEventTypes);
+      }
+      if (instance.__customDirectEventTypes) {
+        Object.assign(customDirectEventTypes, instance.__customDirectEventTypes);
+      }
+    }
 
     this.constants = nativeComponentsInfo;
   }

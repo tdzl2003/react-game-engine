@@ -2,7 +2,7 @@
  * Created by tdzl2003 on 03/06/2017.
  */
 
-import { domStyle, nativeComponent } from '../../NativeComponents/decorators';
+import { directEvent, prop, domStyle, nativeComponent } from '../../NativeComponents/decorators';
 import BaseViewManager from '../../NativeComponents/BaseViewManager';
 
 class GLSurfaceAgent{
@@ -12,9 +12,11 @@ class GLSurfaceAgent{
 
   renderTimer;
 
-  constructor(view) {
+  constructor(bridge, view, tag) {
+    this.bridge = bridge;
     this.view = view;
-    this.performRender();
+    this.tag = tag;
+    this.renderTimer = requestAnimationFrame(this.performRender);
   }
 
   render() {
@@ -25,10 +27,8 @@ class GLSurfaceAgent{
   }
 
   performRender = () => {
-    if (this.reactId !== null) {
-      this.renderTimer = requestAnimationFrame(this.performRender);
-      this.render();
-    }
+    this.renderTimer = requestAnimationFrame(this.performRender);
+    this.render();
   };
 
   renderGL(gl) {
@@ -37,9 +37,14 @@ class GLSurfaceAgent{
     const ratio = window.devicePixelRatio || 1;
     const width = (offsetWidth * ratio) | 0;
     const height = (offsetHeight * ratio) | 0;
-    if (width !== canvas.width || height !== canvas.height) {
-      canvas.width = width;
-      canvas.height = height;
+    if (width !== this.width || height !== this.height) {
+      this.width = width;
+      this.height = height;
+      this.bridge.sendEvent(this.tag, 'onSizeChanged', {
+        width,
+        height,
+        ratio,
+      });
     }
     if (__DEV__) {
       gl.viewport(0, 0, width, height);
@@ -55,8 +60,14 @@ class GLSurfaceAgent{
 
     const {offsetWidth, offsetHeight} = canvas;
 
-    const width = canvas.width = (offsetWidth * ratio) | 0;
-    const height = canvas.height = (offsetHeight * ratio) | 0;
+    const width = this.width = (offsetWidth * ratio) | 0;
+    const height = this.height = (offsetHeight * ratio) | 0;
+
+    this.bridge.sendEvent(this.tag, 'onSurfaceCreated', {
+      width,
+      height,
+      ratio,
+    });
 
     // If we don't have a GL context, give up now
     if (!gl) {
@@ -78,7 +89,7 @@ export default class GLSurfaceManager extends BaseViewManager {
 
   setViewTag(view, tag) {
     super.setViewTag(view, tag);
-    this.canvasInstanceRegistry[tag] = new GLSurfaceAgent(view);
+    this.canvasInstanceRegistry[tag] = new GLSurfaceAgent(this.bridge, view, tag);
   }
 
   @domStyle
@@ -86,5 +97,10 @@ export default class GLSurfaceManager extends BaseViewManager {
 
   @domStyle
   position;
-}
 
+  @directEvent
+  onSurfaceCreated;
+
+  @directEvent
+  onSizeChanged;
+}

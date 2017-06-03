@@ -16,6 +16,56 @@ export function nativeComponent(name) {
   }
 }
 
+export function nativeProp(target, name, args) {
+  if (target.hasOwnProperty('__props')){
+    target.__nativeProps[name] = true;
+  } else {
+    Object.defineProperty(target, '__nativeProps', {
+      configurable: true,
+      enumerable: false,
+      value: {
+        [name]: true,
+      },
+    })
+  }
+}
+
+export function directEvent(target, name, args) {
+  nativeProp(target, name, args);
+
+  if (target.hasOwnProperty('__customDirectEventTypes')){
+    target.__customDirectEventTypes[name] = {
+      registrationName: name
+    };
+  } else {
+    Object.defineProperty(target, '__customDirectEventTypes', {
+      configurable: true,
+      enumerable: false,
+      value: {
+        [name]: {
+          registrationName: name
+        },
+      },
+    })
+  }
+}
+
+export function prop(target, name, args) {
+  const setter = args.value;
+
+  if (target.hasOwnProperty('__props')){
+    target.__props[name] = setter;
+  } else {
+    Object.defineProperty(target, '__props', {
+      configurable: true,
+      enumerable: false,
+      value: {
+        [name]: setter,
+      },
+    })
+  }
+}
+
 export function style(target, name, args) {
   const setter = args.value;
 
@@ -31,7 +81,6 @@ export function style(target, name, args) {
     })
   }
 }
-
 
 export function domStyle(target, name, args) {
   const setter = (view, value) => {
