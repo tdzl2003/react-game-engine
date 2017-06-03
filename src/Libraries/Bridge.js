@@ -144,13 +144,12 @@ export default class Bridge {
     }
   }
 
-  renderRootView(container, appKey, initialProps = null) {
-    const rootView = document.createElement('div');
-    container.appendChild(rootView);
+  createRootView(container, appKey, initialProps = null) {
+    const rootTag = this.uiManager.createRootView(container);
     this.exec('AppRegistry', 'runApplication', [
       appKey,
       {
-        rootTag: this.uiManager.registerRootView(rootView),
+        rootTag,
         initialProps,
       },
     ]);

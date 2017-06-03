@@ -8,6 +8,4 @@ const bridge = new Bridge('./index.bundle?platform=web');
 
 bridge.start();
 
-const div = document.createElement('div');
-document.body.appendChild(div);
-bridge.renderRootView(div, 'game');
+bridge.createRootView(document.body, 'game');

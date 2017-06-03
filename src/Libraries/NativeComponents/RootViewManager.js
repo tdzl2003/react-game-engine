@@ -6,5 +6,12 @@ import { nativeComponent } from './decorators';
 import BaseViewManager from './BaseViewManager';
 
 export default class RootViewManager extends BaseViewManager {
+  createView() {
+    return document.createElement('div');
+  }
 
+  setViewTag(view, tag) {
+    super.setViewTag(view, tag);
+    view.setAttribute('data-react-root', tag);
+  }
 }
