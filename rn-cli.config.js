@@ -21,8 +21,8 @@ var config = {
     return ['web'];
   },
 
-  getProvidesModuleNodeModules() {
-    return ['react-native', 'react-native-game-engine'];
+  extraNodeModules: {
+    'react-native-game-engine': __dirname,
   },
 };
 
@@ -31,7 +31,7 @@ function getRoots() {
   if (root) {
     return [path.resolve(root)];
   }
-  return [path.resolve(__dirname, '..')];
+  return [__dirname];
 }
 
 module.exports = config;

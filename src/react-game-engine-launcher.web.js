@@ -2,6 +2,8 @@
  * Created by tdzl2003 on 30/05/2017.
  * @providesModule react-game-engine-launcher
  */
+import './Libraries/NativeModules';
+import { moduleClasses } from './Libraries/NativeModules/decorators';
 
 const BRIDGE_CODE = `
 var Status = undefined;
@@ -96,9 +98,22 @@ function bundleFromRoot(root) {
 export class Bridge {
   constructor(bundleUrl) {
     this.bundleUrl = bundleUrl;
-    this.moduleConfig = {};
-    this.started = false;
+    this.moduleInstances = moduleClasses.map(v => new v(this));
+    this.moduleConfig = {
+      remoteModuleConfig: this.moduleInstances.map(this.createModuleConfig),
+    };
+    console.log(this.moduleConfig);
   }
+
+  createModuleConfig = (instance) => {
+    return [
+      instance.constructor.__reactModuleName || instance.constructor.name,
+      instance.constants || null,
+      instance.__methods || [],
+      instance.__promiseMethods || [],
+      instance.__syncMethods || [],
+    ]
+  };
 
   start() {
     if (global.Worker) {

@@ -7,10 +7,10 @@ import {
   AppRegistry,
 } from '../../src/react-game-engine';
 
-class App extends Component {
+class Game extends Component {
   render() {
     return null;
   }
 }
 
-AppRegistry.registerComponent('app', () => App);
+AppRegistry.registerComponent('game', () => Game);
