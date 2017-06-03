@@ -16,14 +16,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  blue: {
-    flex: 1,
-    backgroundColor: 'blue',
-  },
-  red: {
-    flex: 1,
-    backgroundColor: 'red',
-  },
 });
 
 class Game extends Component {
