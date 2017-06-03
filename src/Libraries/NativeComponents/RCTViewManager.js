@@ -10,6 +10,7 @@ export default class RCTViewManager extends BaseViewManager {
   createView() {
     const div = document.createElement('div');
     div.style.display = 'flex';
+    div.style.flexDirection = 'column';
     div.style.padding = 0;
     return div;
   }

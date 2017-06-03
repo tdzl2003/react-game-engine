@@ -10,6 +10,7 @@ export default class RootViewManager extends BaseViewManager {
     const div = document.createElement('div');
     div.style.display = 'flex';
     div.style.height = '100%';
+    div.style.flexDirection = 'column';
     div.style.padding = 0;
     return div;
   }
