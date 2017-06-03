@@ -17,4 +17,12 @@ export default class BaseViewManager {
       view.appendChild(child);
     }
   }
+
+  setViewProps(view, props) {
+    for (const key of Object.keys(props)) {
+      if (this.__styles[key]) {
+        this.__styles[key](view, props[key]);
+      }
+    }
+  }
 }

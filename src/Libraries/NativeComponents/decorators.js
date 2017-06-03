@@ -15,3 +15,38 @@ export function nativeComponent(name) {
     nativeComponentClasses.push(target);
   }
 }
+
+export function style(target, name, args) {
+  const setter = args.value;
+
+  if (target.hasOwnProperty('__styles')){
+    target.__styles[name] = setter;
+  } else {
+    Object.defineProperty(target, '__styles', {
+      configurable: true,
+      enumerable: false,
+      value: {
+        [name]: setter,
+      },
+    })
+  }
+}
+
+
+export function domStyle(target, name, args) {
+  const setter = (view, value) => {
+    view.style[name] = value;
+  };
+
+  if (target.hasOwnProperty('__styles')){
+    target.__styles[name] = setter;
+  } else {
+    Object.defineProperty(target, '__styles', {
+      configurable: true,
+      enumerable: false,
+      value: {
+        [name]: setter,
+      },
+    })
+  }
+}

@@ -7,7 +7,11 @@ import BaseViewManager from './BaseViewManager';
 
 export default class RootViewManager extends BaseViewManager {
   createView() {
-    return document.createElement('div');
+    const div = document.createElement('div');
+    div.style.display = 'flex';
+    div.style.height = '100%';
+    div.style.padding = 0;
+    return div;
   }
 
   setViewTag(view, tag) {

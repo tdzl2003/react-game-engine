@@ -47,10 +47,14 @@ export default class UIManager {
     return tag;
   }
 
-  createRootView(container) {
+  createRootView(container, props) {
     const view = this.rootViewManager.createView();
     const tag = this.nextRootViewTag;
     this.nextRootViewTag += ROOT_VIEW_TAG_INCREMENT;
+    this.rootViewManager.setViewTag(view, tag);
+    if (props) {
+      this.rootViewManager.setViewProps(view, props);
+    }
     this.viewRegistry[tag] = [view, this.rootViewManager];
     container.appendChild(view);
     return tag;
@@ -64,6 +68,9 @@ export default class UIManager {
     const manager = this.viewManagers[className];
     const view = manager.createView();
     manager.setViewTag(view, tag);
+    if (props) {
+      manager.setViewProps(view, props);
+    }
     this.viewRegistry[tag] = [
       view,
       manager,

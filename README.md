@@ -5,3 +5,8 @@
 * Will support multi platform, use WebGL/OpenGL/OpenGL ES/Direct X
 
 * Use together with React Native for Native UI
+
+
+# React Native for Web inside.
+
+Not a polyfill with ReactDOM, but real React Native bridge implementation with `WebWorker` on web!
