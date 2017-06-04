@@ -32,6 +32,9 @@ class Game extends Component {
   onSizeChanged = (ev) => {
     console.log('onSizeChanged: ', ev.nativeEvent);
   };
+  onPress = (ev) => {
+    console.log('onPressed');
+  };
   render() {
     return (
       <View style={styles.container}>
@@ -42,7 +45,7 @@ class Game extends Component {
         >
         </GLSurface>
         <View style={styles.buttonList}>
-          <Button title="Press Me." />
+          <Button title="Press Me." onPress={this.onPress} />
         </View>
       </View>
     );

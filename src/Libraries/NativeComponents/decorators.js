@@ -50,6 +50,24 @@ export function directEvent(target, name, args) {
   }
 }
 
+export function domDirectEvent(eventName, eventWrapper = ev => ({})) {
+  return function(target, name, args) {
+    directEvent(target, name, args);
+
+    if (target.hasOwnProperty('__domDirectEvent')){
+      target.__domDirectEvent[name] = setter;
+    } else {
+      Object.defineProperty(target, '__domDirectEvent', {
+        configurable: true,
+        enumerable: false,
+        value: {
+          [name]: [eventName, eventWrapper],
+        },
+      })
+    }
+  }
+}
+
 export function prop(target, name, args) {
   nativeProp(target, name, args);
 

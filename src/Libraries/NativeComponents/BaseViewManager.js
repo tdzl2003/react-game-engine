@@ -5,6 +5,28 @@
 export default class BaseViewManager {
   constructor(bridge) {
     this.bridge = bridge;
+
+    if (this.__domDirectEvent) {
+      // Copy from prototype.
+      this.__props = {...this._props};
+      for (const name of Object.keys(this.__domDirectEvent)) {
+        const [ eventName, eventWrapper ] = this.__domDirectEvent[name];
+        const eventHandler = (ev) => {
+          const tag = ev.target.getAttribute('data-react-id') | 0;
+          bridge.sendEvent(tag, name, eventWrapper(ev))
+        };
+
+        const setter = function (view, value) {
+          if (value) {
+            view.addEventListener(eventName, eventHandler);
+          } else {
+            view.removeEventListener(eventName, eventHandler);
+          }
+        };
+
+        this.__props[name] = setter;
+      }
+    }
   }
 
   setViewTag(view, tag) {
