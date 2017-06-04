@@ -12,6 +12,13 @@ var process = {
   },
 };
 
+var originGlobals = {
+  setTimeout: setTimeout,
+  clearTimeout: clearTimeout,
+  setInterval: setInterval,
+  clearInterval: clearInterval,
+};
+
 onmessage = function(e) {
   var msg = e.data;
   if (!msg || !msg.cmd) {

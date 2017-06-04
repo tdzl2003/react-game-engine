@@ -17,7 +17,7 @@ export function nativeComponent(name) {
 }
 
 export function nativeProp(target, name, args) {
-  if (target.hasOwnProperty('__props')){
+  if (target.hasOwnProperty('__nativeProps')){
     target.__nativeProps[name] = true;
   } else {
     Object.defineProperty(target, '__nativeProps', {
@@ -51,6 +51,8 @@ export function directEvent(target, name, args) {
 }
 
 export function prop(target, name, args) {
+  nativeProp(target, name, args);
+
   const setter = args.value;
 
   if (target.hasOwnProperty('__props')){
@@ -97,5 +99,25 @@ export function domStyle(target, name, args) {
         [name]: setter,
       },
     })
+  }
+}
+
+export function domStyleWithUnit(unit) {
+  return function(target, name, args) {
+    const setter = (view, value) => {
+      view.style[name] = `${value}${unit}`;
+    };
+
+    if (target.hasOwnProperty('__styles')){
+      target.__styles[name] = setter;
+    } else {
+      Object.defineProperty(target, '__styles', {
+        configurable: true,
+        enumerable: false,
+        value: {
+          [name]: setter,
+        },
+      })
+    }
   }
 }

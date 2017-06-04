@@ -2,11 +2,11 @@
  * Created by tdzl2003 on 03/06/2017.
  */
 
-import { style, domStyle, domStyleWithUnit, nativeComponent } from './decorators';
+import { prop, style, domStyle, domStyleWithUnit, nativeComponent } from './decorators';
 import BaseViewManager from './BaseViewManager';
 
-@nativeComponent('RCTView')
-export default class RCTViewManager extends BaseViewManager {
+@nativeComponent('RCTText')
+export default class RCTTextManager extends BaseViewManager {
   createView() {
     const div = document.createElement('div');
     div.style.display = 'flex';
@@ -42,4 +42,21 @@ export default class RCTViewManager extends BaseViewManager {
     view.style.backgroundColor = `rgba(${r}, ${g}, ${b}, ${a})`;
   };
 
+}
+
+@nativeComponent('RCTRawText')
+export class RCTRawTextManager extends BaseViewManager {
+  createView() {
+    const text = document.createTextNode('');
+    return text;
+  }
+
+  @prop
+  text(view, value) {
+    view.data = value;
+  }
+
+  setViewTag(view, tag) {
+    // view.setAttribute('data-react-id', tag);
+  }
 }

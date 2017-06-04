@@ -6,7 +6,7 @@ import { reactMethod, reactPromiseMethod, reactModule } from './decorators';
 import { nativeComponentClasses } from '../NativeComponents/decorators';
 import RootViewManager from "../NativeComponents/RootViewManager";
 
-const DEBUG = false;
+const DEBUG = __DEV__;
 
 const ROOT_VIEW_TAG_INCREMENT = 10;
 
@@ -76,6 +76,9 @@ export default class UIManager {
       console.log('createView', tag, className, rootViewTag, props);
     }
     const manager = this.viewManagers[className];
+    if (!manager) {
+      throw new Error(`Native component ${className} was not implemented yet.`);
+    }
     const view = manager.createView();
     manager.setViewTag(view, tag);
     if (props) {

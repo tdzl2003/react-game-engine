@@ -3,3 +3,5 @@
  */
 
 import './RCTViewManager';
+import './RCTTextManager';
+import './RCTButtonManager';
