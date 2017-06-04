@@ -6,6 +6,7 @@ import React, { Component } from 'react';
 import {
   GLSurface,
   GLLayer2D,
+  GLRect2D,
 } from 'react-game-engine';
 import {
   View,
@@ -57,6 +58,7 @@ class Game extends Component {
           onSizeChanged = {this.onSizeChanged}
         >
           <GLLayer2D>
+            <GLRect2D x={-0.5} y={-0.5} w={1} h={1} color="red"/>
           </GLLayer2D>
         </GLSurface>
         <View style={styles.buttonList}>

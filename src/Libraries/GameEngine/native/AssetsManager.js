@@ -21,6 +21,7 @@ export class AssetType {
     return Promise.resolve(this.doLoad(gl))
       .then( v=> {
         this.loaded = true;
+        console.log('Loaded: ', this.key);
         if (!this.willLoaded) {
           this.unload();
         }

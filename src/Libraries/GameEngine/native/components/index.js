@@ -4,3 +4,5 @@
 
 import './GLSurfaceManager';
 import './GLLayer2DManager';
+import './GLNode2DManager';
+import './GLRect2DManager';

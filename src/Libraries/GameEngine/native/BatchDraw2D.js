@@ -163,11 +163,7 @@ export default class BatchDraw2D {
     }
   }
 
-  flush(gl) {
-    if (this.indeciesBufferCount === 0) {
-      return;
-    }
-
+  render(gl) {
     gl.enable(gl.BLEND);
     gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
     // commit buffer data
@@ -207,6 +203,16 @@ export default class BatchDraw2D {
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indeciesBuffer);
     gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, this.indeciesBufferData, gl.DYNAMIC_DRAW);
     this.effect.drawElements(gl, this.mode, this.indeciesBufferCount, gl.UNSIGNED_SHORT, 0);
+  }
+
+  flush(gl) {
+    if (this.indeciesBufferCount === 0) {
+      return;
+    }
+
+    if ((!this.texture || this.texture.loaded) && this.effect.loaded) {
+      this.render(gl);
+    }
 
     this.vertexBufferCount = 0;
     this.indeciesBufferCount = 0;
