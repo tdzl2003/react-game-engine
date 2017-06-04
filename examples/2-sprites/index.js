@@ -5,6 +5,7 @@
 import React, { Component } from 'react';
 import {
   GLSurface,
+  GLLayer2D,
 } from 'react-game-engine';
 import {
   View,
@@ -55,6 +56,8 @@ class Game extends Component {
           onSurfaceCreated = {this.onSurfaceCreated}
           onSizeChanged = {this.onSizeChanged}
         >
+          <GLLayer2D>
+          </GLLayer2D>
         </GLSurface>
         <View style={styles.buttonList}>
           <Button title="Press Me." onPress={this.onPress} />

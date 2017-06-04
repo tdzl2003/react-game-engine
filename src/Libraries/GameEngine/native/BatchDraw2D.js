@@ -79,8 +79,8 @@ export default class BatchDraw2D {
     this.vertexBuffer = gl.createBuffer();
     this.indeciesBuffer = gl.createBuffer();
 
-    this.baseEffect = gl.effectManager.obtain(gl, getAssetByID(require('../assets/effects/base.effect')));
-    this.baseEffectWithTexture = gl.effectManager.obtain(gl, getAssetByID(require('../assets/effects/baseWithTexture.effect')));
+    this.baseEffect = gl.effectManager.obtain(getAssetByID(require('../assets/effects/base.effect')));
+    this.baseEffectWithTexture = gl.effectManager.obtain( getAssetByID(require('../assets/effects/baseWithTexture.effect')));
   }
 
   drawRect(gl, x, y, w, h, r = 0, g = 0, b = 0, a = 1) {
@@ -206,8 +206,7 @@ export default class BatchDraw2D {
 
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indeciesBuffer);
     gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, this.indeciesBufferData, gl.DYNAMIC_DRAW);
-    // this.effect.drawArrays(this.mode, 0, 3);
-    this.effect.drawElements(this.mode, this.indeciesBufferCount, gl.UNSIGNED_SHORT, 0);
+    this.effect.drawElements(gl, this.mode, this.indeciesBufferCount, gl.UNSIGNED_SHORT, 0);
 
     this.vertexBufferCount = 0;
     this.indeciesBufferCount = 0;

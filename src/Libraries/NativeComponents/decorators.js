@@ -68,10 +68,30 @@ export function domDirectEvent(eventName, eventWrapper = ev => ({})) {
   }
 }
 
-export function prop(target, name, args) {
+export function propSetter(target, name, args) {
   nativeProp(target, name, args);
 
   const setter = args.value;
+
+  if (target.hasOwnProperty('__props')){
+    target.__props[name] = setter;
+  } else {
+    Object.defineProperty(target, '__props', {
+      configurable: true,
+      enumerable: false,
+      value: {
+        [name]: setter,
+      },
+    })
+  }
+}
+
+export function prop(target, name, args) {
+  nativeProp(target, name, args);
+
+  const setter = (view, value) => {
+    view[name] = value;
+  };
 
   if (target.hasOwnProperty('__props')){
     target.__props[name] = setter;

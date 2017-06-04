@@ -2,7 +2,7 @@
  * Created by tdzl2003 on 03/06/2017.
  */
 
-import { prop, style, domStyle, domStyleWithUnit, nativeComponent } from './decorators';
+import { propSetter, style, domStyle, domStyleWithUnit, nativeComponent } from './decorators';
 import BaseViewManager from './BaseViewManager';
 
 @nativeComponent('RCTText')
@@ -51,7 +51,7 @@ export class RCTRawTextManager extends BaseViewManager {
     return text;
   }
 
-  @prop
+  @propSetter
   text(view, value) {
     view.data = value;
   }

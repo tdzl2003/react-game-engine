@@ -5,19 +5,31 @@
 export class AssetType {
   ref = 0;
 
+  loaded = false;
+  willLoaded = false;
+
   gl;
   key;
 
-  constructor(gl, key) {
-    this.gl = gl;
+  constructor(key) {
     this.key = key;
   }
 
   // return a promise if assets needs a async loading.
-  load() {
+  load(gl) {
+    this.willLoaded = true;
+    return Promise.resolve(this.doLoad(gl))
+      .then( v=> {
+        this.loaded = true;
+        if (!this.willLoaded) {
+          this.unload();
+        }
+      })
   }
 
-  unload() {
+  unload(gl) {
+    this.loaded = false;
+    this.willLoaded = false;
   }
 
   addRef() {
@@ -25,7 +37,9 @@ export class AssetType {
   }
 
   release() {
-    --this.ref;
+    if (--this.ref === 0) {
+      this.unload();
+    }
   }
 
   destroy() {
@@ -36,18 +50,19 @@ export default class AssetManager {
   clazz = null;
   assets = []
 
-  constructor(clazz) {
+  constructor(clazz, gl) {
     this.clazz = clazz;
+    this.gl = gl;
   }
 
-  obtain(gl, key) {
+  obtain(key) {
     if (typeof(key) === 'object') {
       key = (key.httpServerLocation || key.fileSystemLocation) + '/' + key.name + '.' + key.type;
     }
     let ref = this.assets[key];
     if (!ref) {
-      this.assets[key] = ref = new this.clazz(gl, key);
-      ref.load(gl);
+      this.assets[key] = ref = new this.clazz(key);
+      ref.load(this.gl);
     }
 
     ref.addRef();

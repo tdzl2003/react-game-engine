@@ -9,22 +9,27 @@ export default class Effect extends AssetType {
 
   params = {};
 
-  load() {
+  doLoad(gl) {
     return fetch(this.key)
       .then(resp => resp.json())
-      .then(data => this.loadFromData(data));
+      .then(data => this.loadFromData(gl, data));
   }
 
-  loadFromData(data) {
+  unload(gl) {
+    super.unload(gl);
+    this.stream = null;
+    this.passes = null;
+    this.params = {};
+  }
+
+  loadFromData(gl, data) {
     this.streams = data.streams;
-    this.passes = data.passes.map((v, i) => this.loadPass(v, i));
+    this.passes = data.passes.map((v, i) => this.loadPass(gl, v, i));
   }
 
-  loadPass(pass, passId) {
-    const { gl } = this;
-
-    const vs = this.loadShader(gl.VERTEX_SHADER, pass.vs);
-    const fs = this.loadShader(gl.FRAGMENT_SHADER, pass.fs);
+  loadPass(gl, pass, passId) {
+    const vs = this.loadShader(gl, gl.VERTEX_SHADER, pass.vs);
+    const fs = this.loadShader(gl, gl.FRAGMENT_SHADER, pass.fs);
     const program = gl.createProgram();
     gl.attachShader(program, vs);
     gl.deleteShader(vs);
@@ -59,9 +64,7 @@ export default class Effect extends AssetType {
     return program;
   }
 
-  loadShader(type, source) {
-    const { gl } = this;
-
+  loadShader(gl, type, source) {
     const shader = gl.createShader(type);
 
     gl.shaderSource(shader, source);
@@ -79,9 +82,7 @@ export default class Effect extends AssetType {
     return shader;
   }
 
-  drawArrays(mode, first, count) {
-    const { gl } = this;
-
+  drawArrays(gl, mode, first, count) {
     if (gl.lastUsedEffect) {
       for (let i = this.streams.length; i < gl.lastUsedEffect.stream.length; i++) {
         gl.disableVertexAttribArray(i);
@@ -93,8 +94,7 @@ export default class Effect extends AssetType {
     }
   }
 
-  drawElements(mode, count, type, offset) {
-    const { gl } = this;
+  drawElements(gl, mode, count, type, offset) {
     if (gl.lastUsedEffect && gl.lastUsedEffect !== this) {
       for (let i = this.streams.length; i < gl.lastUsedEffect.streams.length; i++) {
         gl.disableVertexAttribArray(i);
@@ -107,9 +107,7 @@ export default class Effect extends AssetType {
     gl.lastUsedEffect = this;
   }
 
-  setParameter1i(name, value) {
-    const { gl } = this;
-
+  setParameter1i(gl, name, value) {
     const positions = this.params[name];
     if (positions) {
       for (let i = 0; i < this.passes.length; i++) {

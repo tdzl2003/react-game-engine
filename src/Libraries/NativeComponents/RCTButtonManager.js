@@ -2,7 +2,7 @@
  * Created by tdzl2003 on 03/06/2017.
  */
 
-import { prop, domDirectEvent, nativeComponent } from './decorators';
+import { propSetter, domDirectEvent, nativeComponent } from './decorators';
 import BaseViewManager from './BaseViewManager';
 
 @nativeComponent('RCTButton')
@@ -15,7 +15,7 @@ export default class RCTButtonManager extends BaseViewManager {
     return button;
   }
 
-  @prop
+  @propSetter
   title(view, value) {
     view.innerText = value;
   };

@@ -2,12 +2,12 @@
  * Created by tdzl2003 on 03/06/2017.
  */
 
-import { directEvent, prop, domStyle, nativeComponent } from '../../NativeComponents/decorators';
-import BaseViewManager from '../../NativeComponents/BaseViewManager';
-import MatrixStack from "./matrix";
-import BatchDraw2D from "./BatchDraw2D";
-import AssetManager from "./AssetsManager";
-import Effect from "./Effect";
+import { directEvent, propSetter, domStyle, nativeComponent } from '../../../NativeComponents/decorators';
+import BaseViewManager from '../../../NativeComponents/BaseViewManager';
+import MatrixStack from "../matrix";
+import BatchDraw2D from "../BatchDraw2D";
+import AssetManager from "../AssetsManager";
+import Effect from "../Effect";
 
 class GLSurfaceAgent{
   view;
@@ -91,7 +91,7 @@ class GLSurfaceAgent{
 
     this.gl = gl;
 
-    gl.effectManager = new AssetManager(Effect);
+    gl.effectManager = new AssetManager(Effect, gl);
 
     gl.matrixStack = new MatrixStack();
     gl.painter2d = new BatchDraw2D(gl);
