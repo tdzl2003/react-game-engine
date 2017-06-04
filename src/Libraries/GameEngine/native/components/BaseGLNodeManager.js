@@ -25,16 +25,10 @@ export class GLContainer extends GLBaseNode {
 export default function BaseGLNodeManager(clazz) {
   return class BaseGLNodeManager {
     constructor(bridge) {
-      console.log(clazz);
       this.bridge = bridge;
-      this.__props = {
-        ...this.__props,
-        ...clazz.prototype.__props
-      };
-      this.__nativeProps = {
-        ...this.__nativeProps,
-        ...clazz.prototype.__nativeProps
-      };
+
+      this.__props = Object.assign(this.__props || {}, clazz.prototype.__props);
+      this.__nativeProps = Object.assign(this.__nativeProps || {}, clazz.prototype.__nativeProps);
     }
 
     createView() {

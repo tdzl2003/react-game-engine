@@ -59,8 +59,6 @@ export default class Effect extends AssetType {
       this.params[info.name][passId] = loc;
     }
 
-    // bind streams.
-    // gl.useProgram(program);
     return program;
   }
 
@@ -83,8 +81,8 @@ export default class Effect extends AssetType {
   }
 
   drawArrays(gl, mode, first, count) {
-    if (gl.lastUsedEffect) {
-      for (let i = this.streams.length; i < gl.lastUsedEffect.stream.length; i++) {
+    if (gl.lastUsedEffect && gl.lastUsedEffect !== this) {
+      for (let i = this.streams.length; i < gl.lastUsedEffect.streams.length; i++) {
         gl.disableVertexAttribArray(i);
       }
     }
@@ -92,6 +90,7 @@ export default class Effect extends AssetType {
       gl.useProgram(pass);
       gl.drawArrays(mode, first, count);
     }
+    gl.lastUsedEffect = this;
   }
 
   drawElements(gl, mode, count, type, offset) {

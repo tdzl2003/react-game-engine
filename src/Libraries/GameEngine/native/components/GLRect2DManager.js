@@ -28,11 +28,13 @@ class GLRect2D extends GLBaseNode {
 
 @nativeComponent('GLRect2D')
 export default class GLRect2DManager extends BaseGLNodeManager(GLRect2D) {
+
   @propSetter
   color(view, value) {
-    view.a = ((value >> 24) & 0xff) / 255;
-    view.r = ((value >> 16) & 0xff) / 255;
-    view.g = ((value >> 8) & 0xff) / 255;
-    view.b = (value & 0xff) / 255;
+    view.r = ((value >> 24) & 0xff) / 255;
+    view.g = ((value >> 16) & 0xff) / 255;
+    view.b = ((value >> 8) & 0xff) / 255;
+    view.a = (value & 0xff) / 255;
   }
+
 }

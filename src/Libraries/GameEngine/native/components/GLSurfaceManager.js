@@ -44,17 +44,17 @@ class GLSurfaceAgent{
     const ratio = window.devicePixelRatio || 1;
     const width = (offsetWidth * ratio) | 0;
     const height = (offsetHeight * ratio) | 0;
-    if (width !== this.width || height !== this.height) {
-      this.width = width;
-      this.height = height;
+    if (width !== canvas.width || height !== canvas.height) {
+      canvas.width = width;
+      canvas.height = height;
       this.bridge.sendEvent(this.tag, 'onSizeChanged', {
         width,
         height,
         ratio,
       });
     }
+    gl.viewport(0, 0, width, height);
     if (__DEV__) {
-      gl.viewport(0, 0, width, height);
       gl.clearColor(0.0, 0.0, 1.0, 1.0);
       gl.clear(gl.COLOR_BUFFER_BIT);
     }
@@ -75,14 +75,16 @@ class GLSurfaceAgent{
 
     const {offsetWidth, offsetHeight} = canvas;
 
-    const width = this.width = (offsetWidth * ratio) | 0;
-    const height = this.height = (offsetHeight * ratio) | 0;
+    const width = canvas.width = (offsetWidth * ratio) | 0;
+    const height = canvas.height = (offsetHeight * ratio) | 0;
 
     this.bridge.sendEvent(this.tag, 'onSurfaceCreated', {
       width,
       height,
       ratio,
     });
+
+    gl.viewport(0, 0, width, height);
 
     // If we don't have a GL context, give up now
     if (!gl) {
@@ -103,13 +105,17 @@ export default class GLSurfaceManager extends BaseViewManager {
   canvasInstanceRegistry = [];
 
   createView() {
+    const div = document.createElement('div');
     const canvas = document.createElement('canvas');
-    return canvas;
+    canvas.style.width = '100%';
+    canvas.style.height = '100%';
+    div.appendChild(canvas);
+    return div;
   }
 
   setViewTag(view, tag) {
     super.setViewTag(view, tag);
-    this.canvasInstanceRegistry[tag] = new GLSurfaceAgent(this.bridge, view, tag);
+    this.canvasInstanceRegistry[tag] = new GLSurfaceAgent(this.bridge, view.firstChild, tag);
   }
 
   @domStyle

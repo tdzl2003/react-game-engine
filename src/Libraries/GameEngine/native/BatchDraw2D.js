@@ -32,11 +32,7 @@ const VERTEX_FORMAT_BIT = [
   0, // VERTEX, always true.
   1 << 0, // TEXCOORD
   1 << 1, // DIFFUSE
-]
-
-// vertex buffer
-// diffuse buffer
-// texcoord buffer
+];
 
 export default class BatchDraw2D {
   caps = {};
@@ -210,7 +206,7 @@ export default class BatchDraw2D {
       return;
     }
 
-    if ((!this.texture || this.texture.loaded) && this.effect.loaded) {
+    if ((!this.texture || this.texture.loaded) && this.effect && this.effect.loaded) {
       this.render(gl);
     }
 
