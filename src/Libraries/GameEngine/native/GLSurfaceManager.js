@@ -4,13 +4,18 @@
 
 import { directEvent, prop, domStyle, nativeComponent } from '../../NativeComponents/decorators';
 import BaseViewManager from '../../NativeComponents/BaseViewManager';
+import MatrixStack from "./matrix";
+import BatchDraw2D from "./BatchDraw2D";
+import AssetManager from "./AssetsManager";
+import Effect from "./Effect";
 
 class GLSurfaceAgent{
-
   view;
   gl;
 
   renderTimer;
+
+  layers;
 
   constructor(bridge, view, tag) {
     this.bridge = bridge;
@@ -23,7 +28,9 @@ class GLSurfaceAgent{
     if (!this.gl) {
       this.initGL();
     }
-    this.renderGL(this.gl);
+    if (this.gl) {
+      this.renderGL(this.gl);
+    }
   }
 
   performRender = () => {
@@ -51,6 +58,14 @@ class GLSurfaceAgent{
       gl.clearColor(0.0, 0.0, 1.0, 1.0);
       gl.clear(gl.COLOR_BUFFER_BIT);
     }
+
+    if (this.layers) {
+      for (const layer of this.layers) {
+        layer.renderGL(gl);
+      }
+    }
+
+    gl.painter2d.flush(gl);
   }
 
   initGL() {
@@ -75,6 +90,11 @@ class GLSurfaceAgent{
     }
 
     this.gl = gl;
+
+    gl.effectManager = new AssetManager(Effect);
+
+    gl.matrixStack = new MatrixStack();
+    gl.painter2d = new BatchDraw2D(gl);
   }
 }
 
@@ -103,4 +123,10 @@ export default class GLSurfaceManager extends BaseViewManager {
 
   @directEvent
   onSizeChanged;
+
+  setChildren(view, children) {
+    const tag = view.getAttribute('data-react-id') | 0;
+    const agent = this.canvasInstanceRegistry[tag];
+    agent.layers = children;
+  }
 }

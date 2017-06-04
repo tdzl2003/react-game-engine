@@ -20,6 +20,8 @@
     "babel-plugin-transform-exponentiation-operator": "^6.24.1",
     "babel-preset-react-native": "^1.9.2",
     "invariant": "^2.2.2",
+    "mobx": "^3.1.11",
+    "mobx-react": "^4.2.1",
     "react": "16.0.0-alpha.6",
     "react-native": "^0.44.2"
   },

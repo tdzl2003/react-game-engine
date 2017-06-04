@@ -10,11 +10,12 @@ var config = {
 
   getBlacklistRE() {
     return blacklist([
+      /\.idea[\/\\].*/,
     ]);
   },
 
   getAssetExts() {
-    return [];
+    return ['effect'];
   },
 
   getPlatforms() {

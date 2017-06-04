@@ -12,6 +12,8 @@ import {
   AppRegistry,
   Button,
 } from 'react-native';
+import { observer } from 'mobx-react/native';
+import { observable } from 'mobx';
 
 const styles = StyleSheet.create({
   container: {
@@ -25,15 +27,25 @@ const styles = StyleSheet.create({
   }
 });
 
+@observer
 class Game extends Component {
+  @observable
+  surfaceInfo = {
+    width: 0,
+    height: 0,
+    ratio: 1,
+  };
+
   onSurfaceCreated = (ev) => {
-    console.log('onSurfaceCreated: ', ev.nativeEvent);
+    this.onSizeChanged(ev);
   };
   onSizeChanged = (ev) => {
-    console.log('onSizeChanged: ', ev.nativeEvent);
+    const { width, height, ratio } = ev.nativeEvent;
+    this.surfaceInfo.width = width;
+    this.surfaceInfo.height = height;
+    this.surfaceInfo.ratio = ratio;
   };
   onPress = (ev) => {
-    console.log('onPressed');
   };
   render() {
     return (

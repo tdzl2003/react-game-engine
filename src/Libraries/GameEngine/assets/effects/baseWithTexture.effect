@@ -1,0 +1,22 @@
+{
+   "streams": [
+     {
+       "name": "vertex",
+       "size": 2
+     },
+     {
+       "name": "texcoord",
+       "size": 2
+     },
+     {
+       "name": "diffuse",
+       "size": 4
+     }
+   ],
+   "passes": [
+     {
+       "vs": "attribute vec2 vertex;\nattribute vec2 texcoord;\nattribute vec4 diffuse;\n\nvarying mediump vec2 vTexcoord;\nvarying lowp vec4 vDiffuse;\n\nvoid main(void) {\n  vTexcoord = texcoord;\n  vDiffuse = diffuse;\n  gl_Position = vec4(vertex, 0.0, 1.0);\n}\n",
+       "fs": "varying mediump vec2 vTexcoord;\nvarying lowp vec4 vDiffuse;\n\nuniform sampler2D sampler;\n\nvoid main(void) {\n  gl_FragColor = texture2D(sampler, vTexcoord) * vDiffuse;\n}\n"
+     }
+   ]
+ }
