@@ -19,14 +19,13 @@ function powerOfTwo(num) {
 }
 
 export class ImageTexture extends AssetType {
-  uri;
   texture;
   info = null;
 
   doLoad(gl) {
     return new Promise((resolve, reject) => {
       const image = new Image();
-      image.src = this.uri;
+      image.src = this.key;
       image.onload = () => {
         this.texture = gl.createTexture();
         const { width, height } = image;

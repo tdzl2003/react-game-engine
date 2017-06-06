@@ -4,3 +4,4 @@
 
 import './UIManager';
 import './DeviceInfo';
+import './SourceCode';

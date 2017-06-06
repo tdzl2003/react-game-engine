@@ -55,11 +55,15 @@ export default class AssetManager {
     this.clazz = clazz;
     this.gl = gl;
   }
-
-  obtain(key) {
+  
+  __obtainFromRequireInNative(key) {
     if (typeof(key) === 'object') {
       key = (key.httpServerLocation || key.fileSystemLocation) + '/' + key.name + '.' + key.type;
     }
+    return this.obtain(key);
+  }
+
+  obtain(key) {
     let ref = this.assets[key];
     if (!ref) {
       this.assets[key] = ref = new this.clazz(key);

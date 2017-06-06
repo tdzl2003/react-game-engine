@@ -102,7 +102,7 @@ function bundleFromRoot(root) {
 
 export default class Bridge {
   constructor(bundleUrl) {
-    this.bundleUrl = bundleUrl;
+    this.bundleUrl = bundleFromRoot(bundleUrl);
     this.moduleInstances = moduleClasses.map(v => new v(this));
     this.moduleConfig = {
       remoteModuleConfig: this.moduleInstances.map(this.createModuleConfig),
@@ -129,7 +129,7 @@ export default class Bridge {
       });
       w.postMessage({
         cmd: 'bundle',
-        bundleName: bundleFromRoot(this.bundleUrl)
+        bundleName: this.bundleUrl
       });
       w.onmessage = this.onMessage.bind(this);
     } else {

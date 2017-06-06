@@ -7,6 +7,7 @@ import {
   GLSurface,
   GLLayer2D,
   GLRect2D,
+  GLImage,
 } from 'react-game-engine';
 import {
   View,
@@ -58,7 +59,7 @@ class Game extends Component {
           onSizeChanged = {this.onSizeChanged}
         >
           <GLLayer2D>
-            <GLRect2D x={-0.5} y={-0.5} w={1} h={1} color="red"/>
+            <GLImage source={require('./chicken.png')}/>
           </GLLayer2D>
         </GLSurface>
         <View style={styles.buttonList}>

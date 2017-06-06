@@ -8,6 +8,7 @@ import MatrixStack from "../matrix";
 import BatchDraw2D from "../BatchDraw2D";
 import AssetManager from "../AssetsManager";
 import Effect from "../Effect";
+import {ImageTexture} from "../Texture";
 
 class GLSurfaceAgent{
   view;
@@ -94,6 +95,7 @@ class GLSurfaceAgent{
     this.gl = gl;
 
     gl.effectManager = new AssetManager(Effect, gl);
+    gl.textureManager = new AssetManager(ImageTexture, gl);
 
     gl.matrixStack = new MatrixStack();
     gl.painter2d = new BatchDraw2D(gl);
