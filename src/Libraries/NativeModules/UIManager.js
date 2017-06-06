@@ -6,7 +6,7 @@ import { reactMethod, reactPromiseMethod, reactModule } from './decorators';
 import { nativeComponentClasses } from '../NativeComponents/decorators';
 import RootViewManager from "../NativeComponents/RootViewManager";
 
-const DEBUG = false;
+const DEBUG = __DEV__;
 
 const ROOT_VIEW_TAG_INCREMENT = 10;
 
@@ -98,5 +98,11 @@ export default class UIManager {
     const [ view, manager ] = this.viewRegistry[viewTag];
 
     manager.setChildren(view, childrenTags.map(tag=>this.viewRegistry[tag][0]));
+  }
+
+  @reactMethod
+  updateView (tag, className, props) {
+    const [ view, manager ] = this.viewRegistry[tag];
+    manager.setViewProps(view, props);
   }
 }

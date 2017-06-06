@@ -90,8 +90,6 @@ export class GLImage extends Component {
 
     let resolvedSource = source && resolveAssetSource(source);
 
-    console.log(source, resolvedSource);
-
     return (
       <NativeGLImage
         x={x} y={y} w={w} h={h} color={normalizeColor(color)}
@@ -107,6 +105,45 @@ const NativeGLImage = requireNativeComponent('GLImage', GLImage, {
   }
 });
 
+export class GLBasicSprite extends Component {
+  static propTypes = {
+    columns: PropTypes.number.isRequired,
+    tileW: PropTypes.number.isRequired,
+    tileH: PropTypes.number.isRequired,
+    interval: PropTypes.number,
+    animationData: PropTypes.arrayOf(PropTypes.number).isRequired,
+    color: ColorPropType,
+    source: PropTypes.oneOfType([
+      PropTypes.shape({
+        uri: PropTypes.string,
+      }),
+      // Opaque type returned by require('./image.jpg')
+      PropTypes.number,
+    ]),
+  };
+  static defaultProps = {
+    color: 'white',
+  };
+  render() {
+    const { columns, tileW, tileH, interval, animationData, source, color} = this.props;
+
+    let resolvedSource = source && resolveAssetSource(source);
+
+    return (
+      <NativeGLBasicSprite
+        color={normalizeColor(color)}
+        columns={columns} tileW={tileW} tileH={tileH} interval={interval} animationData={animationData}
+        src={resolvedSource && resolvedSource.uri}
+      />
+    );
+  }
+}
+
+const NativeGLBasicSprite = requireNativeComponent('GLBasicSprite', GLBasicSprite, {
+  nativeOnly: {
+    src: PropTypes.string,
+  }
+});
 
 export const GLSurface = requireNativeComponent('GLSurface', {
   propTypes: {

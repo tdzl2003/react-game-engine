@@ -7,3 +7,5 @@ import './GLLayer2DManager';
 import './GLNode2DManager';
 import './GLRect2DManager';
 import './GLImageManager';
+import './GLSurfaceManager';
+import './GLBasicSpriteManager';

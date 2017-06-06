@@ -8,6 +8,7 @@ import {
   GLLayer2D,
   GLRect2D,
   GLImage,
+  GLBasicSprite,
 } from 'react-game-engine';
 import {
   View,
@@ -31,6 +32,33 @@ const styles = StyleSheet.create({
 });
 
 @observer
+class Chicken extends Component {
+
+  static animationData = [
+    [0,1,2,1],
+    [3,4,5,4],
+    [9,10,11,10],
+    [6,7,8,7],
+  ];
+
+  @observable
+  direction = 0;
+
+  render() {
+    return (
+      <GLBasicSprite
+        source={require('./chicken.png')}
+        animationData={Chicken.animationData[this.direction]}
+        columns={3}
+        tileW={0.25}
+        tileH={0.25}
+        interval={120}
+      />
+    );
+  }
+}
+
+@observer
 class Game extends Component {
   @observable
   surfaceInfo = {
@@ -49,6 +77,10 @@ class Game extends Component {
     this.surfaceInfo.ratio = ratio;
   };
   onPress = (ev) => {
+    this.chicken.direction = (this.chicken.direction + 1) % 4;
+  };
+  onChickenRef = ref => {
+    this.chicken = ref;
   };
   render() {
     return (
@@ -59,7 +91,7 @@ class Game extends Component {
           onSizeChanged = {this.onSizeChanged}
         >
           <GLLayer2D>
-            <GLImage source={require('./chicken.png')}/>
+            <Chicken ref={this.onChickenRef}/>
           </GLLayer2D>
         </GLSurface>
         <View style={styles.buttonList}>
