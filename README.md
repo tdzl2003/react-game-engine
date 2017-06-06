@@ -17,3 +17,7 @@ Not a polyfill with ReactDOM, but real React Native bridge implementation with `
 2. Run `npm install` or `yarn` at `~/react-game-engine`
 4. Run `npm start` at `~/react-game-engine`
 5. Visit [http://localhost:8081/examples/](http://localhost:8081/examples/) with browsers.
+
+# 国内开发者QQ交流群
+
+517743492

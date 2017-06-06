@@ -108,6 +108,7 @@ export default class GLSurfaceManager extends BaseViewManager {
 
   createView() {
     const div = document.createElement('div');
+    div.style.display = 'flex';
     const canvas = document.createElement('canvas');
     canvas.style.width = '100%';
     canvas.style.height = '100%';
