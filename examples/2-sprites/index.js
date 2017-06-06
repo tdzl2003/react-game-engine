@@ -6,6 +6,7 @@ import React, { Component } from 'react';
 import {
   GLSurface,
   GLLayer2D,
+  GLNode2D,
   GLRect2D,
   GLImage,
   GLBasicSprite,
@@ -83,6 +84,8 @@ class Game extends Component {
     this.chicken = ref;
   };
   render() {
+    const { width, height } = this.surfaceInfo;
+
     return (
       <View style={styles.container}>
         <GLSurface
@@ -90,8 +93,10 @@ class Game extends Component {
           onSurfaceCreated = {this.onSurfaceCreated}
           onSizeChanged = {this.onSizeChanged}
         >
-          <GLLayer2D>
-            <Chicken ref={this.onChickenRef}/>
+          <GLLayer2D width={width} height={height} >
+            <GLNode2D scaleX={32} scaleY={32}>
+              <Chicken ref={this.onChickenRef}/>
+            </GLNode2D>
           </GLLayer2D>
         </GLSurface>
         <View style={styles.buttonList}>

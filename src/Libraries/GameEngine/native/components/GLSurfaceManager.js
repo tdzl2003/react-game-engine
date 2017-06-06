@@ -49,8 +49,8 @@ class GLSurfaceAgent{
       canvas.width = width;
       canvas.height = height;
       this.bridge.sendEvent(this.tag, 'onSizeChanged', {
-        width,
-        height,
+        width: offsetWidth,
+        height: offsetHeight,
         ratio,
       });
     }
@@ -80,8 +80,8 @@ class GLSurfaceAgent{
     const height = canvas.height = (offsetHeight * ratio) | 0;
 
     this.bridge.sendEvent(this.tag, 'onSurfaceCreated', {
-      width,
-      height,
+      width: offsetWidth,
+      height: offsetHeight,
       ratio,
     });
 

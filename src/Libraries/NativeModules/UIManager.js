@@ -102,6 +102,9 @@ export default class UIManager {
 
   @reactMethod
   updateView (tag, className, props) {
+    if (DEBUG) {
+      console.log('updateView', tag, props);
+    }
     const [ view, manager ] = this.viewRegistry[tag];
     manager.setViewProps(view, props);
   }
