@@ -79,7 +79,7 @@ class GLBasicSprite extends GLBaseNode {
     if (this.textureUri && !this.texture) {
       this.texture = gl.textureManager.obtain(this.textureUri);
     }
-    if (this.texture ) {
+    if (this.texture) {
       const frameId = this.animationData && this.animationData[this.currentFrame];
       if (frameId == null) {
         return;
