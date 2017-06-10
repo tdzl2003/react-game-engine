@@ -105,6 +105,7 @@ class Game extends Component {
       <View
         style={styles.container}
         onStartShouldSetResponder={this.onStartShouldSetResponder}
+        onResponderGrant={this.onResponderMove}
         onResponderMove={this.onResponderMove}
       >
         <GLSurface
