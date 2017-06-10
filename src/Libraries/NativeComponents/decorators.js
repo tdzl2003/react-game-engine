@@ -159,3 +159,27 @@ export function domStyleWithUnit(unit) {
     }
   }
 }
+
+export function domColorStyle(unit) {
+  return function(target, name, args) {
+    const setter = (view, value) => {
+      const a = ((value >> 24) & 0xff) / 255;
+      const r = (value >> 16) & 0xff;
+      const g = (value >> 8) & 0xff;
+      const b = (value & 0xff);
+      view.style[name] = `rgba(${r}, ${g}, ${b}, ${a})`;
+    };
+
+    if (target.hasOwnProperty('__styles')){
+      target.__styles[name] = setter;
+    } else {
+      Object.defineProperty(target, '__styles', {
+        configurable: true,
+        enumerable: false,
+        value: {
+          [name]: setter,
+        },
+      })
+    }
+  }
+}

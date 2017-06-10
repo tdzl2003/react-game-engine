@@ -2,7 +2,12 @@
  * Created by tdzl2003 on 03/06/2017.
  */
 
-import { style, domStyle, domStyleWithUnit, nativeComponent } from './decorators';
+import {
+  domStyle,
+  domStyleWithUnit,
+  domColorStyle,
+  nativeComponent,
+} from './decorators';
 import BaseViewManager from './BaseViewManager';
 
 @nativeComponent('RCTView')
@@ -21,6 +26,9 @@ export default class RCTViewManager extends BaseViewManager {
   @domStyle
   position;
 
+  @domStyle
+  opacity;
+
   @domStyleWithUnit('px')
   left;
 
@@ -33,13 +41,15 @@ export default class RCTViewManager extends BaseViewManager {
   @domStyleWithUnit('px')
   bottom;
 
-  @style
-  backgroundColor(view, value) {
-    const a = ((value >> 24) & 0xff) / 255;
-    const r = (value >> 16) & 0xff;
-    const g = (value >> 8) & 0xff;
-    const b = (value & 0xff);
-    view.style.backgroundColor = `rgba(${r}, ${g}, ${b}, ${a})`;
-  };
+  @domStyleWithUnit('px')
+  borderRadius;
 
+  @domStyleWithUnit('px')
+  borderWidth;
+
+  @domColorStyle
+  backgroundColor;
+
+  @domColorStyle
+  borderColor;
 }
