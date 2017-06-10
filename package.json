@@ -26,6 +26,8 @@
     "react-native": "^0.44.2"
   },
   "dependencies": {
+    "es6-promise": "^4.1.0",
+    "isomorphic-fetch": "^2.2.1",
     "prop-types": "^15.5.10"
   }
 }
