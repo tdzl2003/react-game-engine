@@ -1,6 +1,8 @@
 mkdir build
 mkdir build/examples
 
+cp examples/index.html build/examples/index.html
+
 for NAME in 1-blank 2-sprites 3-animates 4-touches
 do
     mkdir build/examples/$NAME
