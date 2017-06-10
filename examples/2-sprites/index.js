@@ -10,7 +10,7 @@ import {
   GLRect2D,
   GLImage,
   GLBasicSprite,
-} from 'react-game-engine';
+} from 'renal';
 import {
   View,
   StyleSheet,

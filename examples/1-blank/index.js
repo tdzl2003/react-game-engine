@@ -5,7 +5,7 @@
 import React, { Component } from 'react';
 import {
   GLSurface,
-} from 'react-game-engine';
+} from 'renal';
 import {
   View,
   StyleSheet,

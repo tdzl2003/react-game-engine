@@ -8,7 +8,7 @@ import {
   GLLayer2D,
   GLNode2D,
   GLBasicSprite,
-} from 'react-game-engine';
+} from 'renal';
 import {
   View,
   StyleSheet,

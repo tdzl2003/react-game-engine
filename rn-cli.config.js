@@ -23,7 +23,7 @@ var config = {
   },
 
   extraNodeModules: {
-    'react-native-game-engine': __dirname,
+    'renal': __dirname,
   },
 };
 

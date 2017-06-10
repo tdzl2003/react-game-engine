@@ -4,7 +4,7 @@
 
 global.__ASSET_ROOT__ = '../..';
 
-const { Bridge } = require('react-game-engine-launcher');
+const { Bridge } = require('react-native-web-launcher');
 
 const bridge = new Bridge(
   __DEV__ ?

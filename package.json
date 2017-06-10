@@ -1,7 +1,7 @@
 {
-  "name": "react-game-engine",
+  "name": "renal",
   "version": "0.1.0",
-  "main": "./src/react-game-engine.js",
+  "main": "./src/renal.js",
   "repository": "git@github.com:tdzl2003/react-game-engine.git",
   "author": "tdzl2003 <tdzl2003@gmail.com>",
   "license": "MIT",
