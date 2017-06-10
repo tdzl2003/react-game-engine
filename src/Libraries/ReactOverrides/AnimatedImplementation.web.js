@@ -12,6 +12,7 @@
 'use strict';
 
 /* eslint-disable */
+require('./JSTimers');
 
 var InteractionManager = require('InteractionManager');
 var Interpolation = require('Interpolation');

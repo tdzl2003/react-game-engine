@@ -17,9 +17,9 @@ class GLNode2D extends GLContainer {
     const { matrixStack } = gl;
     matrixStack.push();
     const { top } = matrixStack;
+    translate2D(top, this.x, this.y);
     scale2D(top, this.scaleX, this.scaleY);
     rotate2D(top, this.rotate);
-    translate2D(top, this.x, this.y);
 
     super.renderGL(gl);
     matrixStack.pop();

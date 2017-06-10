@@ -109,6 +109,8 @@ export default class Bridge {
     };
   }
 
+  flushTimer = null;
+
   createModuleConfig = (instance) => {
     return [
       instance.constructor.__reactModuleName || instance.constructor.name,
@@ -136,7 +138,16 @@ export default class Bridge {
       // TODO: Implement without worker.
       throw new Error('ReactGameEngine without Worker is not implemented yet.');
     }
+
+    this.flushTimer = requestAnimationFrame(this.requestFlush);
   }
+
+  requestFlush = () => {
+    this.worker.postMessage({
+      cmd: 'flush',
+    });
+    this.flushTimer = requestAnimationFrame(this.requestFlush);
+  };
 
   onMessage(e) {
     const msg = e.data;

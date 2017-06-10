@@ -6,7 +6,7 @@ import { reactMethod, reactPromiseMethod, reactModule } from './decorators';
 import { nativeComponentClasses } from '../NativeComponents/decorators';
 import RootViewManager from "../NativeComponents/RootViewManager";
 
-const DEBUG = __DEV__;
+const DEBUG = false;
 
 const ROOT_VIEW_TAG_INCREMENT = 10;
 
