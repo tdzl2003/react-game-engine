@@ -24,10 +24,25 @@ export default class RCTViewManager extends BaseViewManager {
   flex;
 
   @domStyle
+  flexGrow;
+
+  @domStyle
+  flexShrink;
+
+  @domStyle
+  flexBasis;
+
+  @domStyle
   position;
 
   @domStyle
   opacity;
+
+  @domStyleWithUnit('px')
+  width;
+
+  @domStyleWithUnit('px')
+  height;
 
   @domStyleWithUnit('px')
   left;
