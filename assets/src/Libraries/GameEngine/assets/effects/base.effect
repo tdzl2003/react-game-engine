@@ -1,0 +1,19 @@
+{
+   "streams": [
+     {
+       "name": "vertex",
+       "size": 2
+     },
+     null,
+     {
+       "name": "diffuse",
+       "size": 4
+     }
+   ],
+   "passes": [
+     {
+       "vs": "attribute vec2 vertex;\nattribute vec4 diffuse;\n\nvarying lowp vec4 vDiffuse;\n\nvoid main(void) {\n  vDiffuse = diffuse;\n  gl_Position = vec4(vertex, 0.0, 1.0);\n}",
+       "fs": "varying lowp vec4 vDiffuse;\nvoid main(void) {\n  gl_FragColor = vDiffuse;\n}\n"
+     }
+   ]
+ }
