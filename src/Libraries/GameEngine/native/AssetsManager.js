@@ -58,7 +58,7 @@ export default class AssetManager {
   
   __obtainFromRequireInNative(key) {
     if (typeof(key) === 'object') {
-      key = (key.httpServerLocation || key.fileSystemLocation) + '/' + key.name + '.' + key.type;
+      key = global.__ASSET_ROOT__ + (key.httpServerLocation || key.fileSystemLocation) + '/' + key.name + '.' + key.type;
     }
     return this.obtain(key);
   }
