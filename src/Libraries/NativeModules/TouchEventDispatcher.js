@@ -5,7 +5,7 @@
 
 import {reactModule} from "./decorators";
 
-@reactModule
+@reactModule('TouchEventDispatcher')
 export default class TouchEventDispatcher {
   constructor(bridge) {
     this.bridge = bridge;

@@ -4,7 +4,7 @@
 
 import { Bridge } from 'react-game-engine-launcher';
 
-const bridge = new Bridge('./index.bundle?platform=web');
+const bridge = new Bridge('./index.bundle.js?platform=web');
 
 bridge.start();
 

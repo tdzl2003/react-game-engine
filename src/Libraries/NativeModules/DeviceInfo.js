@@ -4,7 +4,7 @@
 
 import { reactMethod, reactPromiseMethod, reactModule } from './decorators';
 
-@reactModule
+@reactModule('DeviceInfo')
 export default class DeviceInfo {
 
   constants = {

@@ -4,7 +4,7 @@
 
 import { reactMethod, reactPromiseMethod, reactModule } from './decorators';
 
-@reactModule
+@reactModule('SourceCode')
 export default class SourceCode {
   constructor(bridge) {
     this.constants = {

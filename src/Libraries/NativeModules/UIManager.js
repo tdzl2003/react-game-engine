@@ -10,7 +10,7 @@ const DEBUG = false;
 
 const ROOT_VIEW_TAG_INCREMENT = 10;
 
-@reactModule
+@reactModule('UIManager')
 export default class UIManager {
 
   viewRegistry = [];
