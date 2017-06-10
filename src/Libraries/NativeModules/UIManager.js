@@ -108,4 +108,14 @@ export default class UIManager {
     const [ view, manager ] = this.viewRegistry[tag];
     manager.setViewProps(view, props);
   }
+
+  @reactMethod
+  setJSResponder() {
+
+  }
+
+  @reactMethod
+  clearJSResponder() {
+
+  }
 }

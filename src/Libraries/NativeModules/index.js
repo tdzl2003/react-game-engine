@@ -5,3 +5,4 @@
 import './UIManager';
 import './DeviceInfo';
 import './SourceCode';
+import './TouchEventDispatcher';
