@@ -52,5 +52,58 @@ export default function BaseGLNodeManager(clazz) {
         }
       }
     }
+
+    manageChildren(view, moveFrom, moveTo, addChildren, addAtIndecies, removeFrom) {
+      const startChildren = [...view.children];
+
+      const finallyRemoves = [];
+
+      if (moveFrom) {
+        addChildren = addChildren || [];
+        addAtIndecies = addAtIndecies || [];
+        for (let i = 0; i < moveFrom.length; i++) {
+          const viewToMove = startChildren[moveFrom[i]];
+          startChildren[i] = null;
+          addChildren.append(viewToMove);
+          addAtIndecies.append(moveTo[i]);
+        }
+      }
+
+      if (removeFrom) {
+        for (const i of removeFrom) {
+          const viewToRemove = startChildren[i];
+          startChildren[i] = null;
+          finallyRemoves.push(viewToRemove.tag | 0);
+        }
+      }
+
+      if (addAtIndecies) {
+        const finalChildren = [];
+
+        // Use different algorithm to avoid sort.
+        for (let i = 0; i < addAtIndecies.length; i++) {
+          const child = addChildren[i];
+          const targetId = addAtIndecies[i];  // i views already inserted before.
+          finalChildren[targetId] = child;
+        }
+
+        let idx = 0;
+
+        for (const view of startChildren.filter(v => v)) {
+          while (finalChildren[idx]) {
+            idx ++;
+          }
+          finalChildren[idx] = view;
+        }
+        view.children = finalChildren;
+      } else {
+        view.children = startChildren.filter(v => v);
+      }
+      return finallyRemoves;
+    }
+
+    beforeRemoveView(view) {
+
+    }
   }
 }

@@ -9,16 +9,16 @@ import BatchDraw2D from "../BatchDraw2D";
 import AssetManager from "../AssetsManager";
 import Effect from "../Effect";
 import {ImageTexture} from "../Texture";
+import BaseGLNodeManager, { GLContainer } from './BaseGLNodeManager';
 
-class GLSurfaceAgent{
+class GLSurfaceAgent extends GLContainer{
   view;
   gl;
 
   renderTimer;
 
-  layers;
-
   constructor(bridge, view, tag) {
+    super();
     this.bridge = bridge;
     this.view = view;
     this.tag = tag;
@@ -60,9 +60,9 @@ class GLSurfaceAgent{
       gl.clear(gl.COLOR_BUFFER_BIT);
     }
 
-    if (this.layers) {
-      for (const layer of this.layers) {
-        layer.renderGL(gl);
+    if (this.children) {
+      for (const child of this.children) {
+        child.renderGL(gl);
       }
     }
 
@@ -106,6 +106,14 @@ class GLSurfaceAgent{
 export default class GLSurfaceManager extends BaseViewManager {
   canvasInstanceRegistry = [];
 
+  agentManager;
+
+  constructor(bridge){
+    super(bridge);
+    const Manager = BaseGLNodeManager(GLSurfaceAgent);
+    this.agentManager = new Manager(bridge);
+  }
+
   createView() {
     const div = document.createElement('div');
     div.style.display = 'flex';
@@ -136,6 +144,17 @@ export default class GLSurfaceManager extends BaseViewManager {
   setChildren(view, children) {
     const tag = view.getAttribute('data-react-id') | 0;
     const agent = this.canvasInstanceRegistry[tag];
-    agent.layers = children;
+    this.agentManager.setChildren(agent, children);
+  }
+
+  manageChildren(view, moveFrom, moveTo, addChildren, addAtIndecies, removeFrom) {
+    const tag = view.getAttribute('data-react-id') | 0;
+    const agent = this.canvasInstanceRegistry[tag];
+    return this.agentManager.setChildren(agent, moveFrom, moveTo, addChildren, addAtIndecies, removeFrom);
+  }
+
+  beforeRemoveView(view) {
+    const tag = view.getAttribute('data-react-id') | 0;
+    delete this.canvasInstanceRegistry[tag];
   }
 }

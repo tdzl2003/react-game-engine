@@ -110,6 +110,25 @@ export default class UIManager {
   }
 
   @reactMethod
+  manageChildren(tag, moveFrom, moveTo, addChildTags, addAtIndices, removeFrom) {
+    if (DEBUG) {
+      console.log('manageChildren', ...arguments);
+    }
+    const [ view, manager ] = this.viewRegistry[tag];
+    const removes = manager.manageChildren(
+      view, moveFrom, moveTo,
+      addChildTags && addChildTags.map(v=>this.viewRegistry[v][0]),
+      addAtIndices,
+      removeFrom,
+    );
+    for (const removeTag of removes) {
+      const [ removeView, removeManager ] = this.viewRegistry[removeTag];
+      removeManager.beforeRemoveView(removeView);
+      delete this.viewRegistry[removeTag];
+    }
+  }
+
+  @reactMethod
   setJSResponder() {
 
   }

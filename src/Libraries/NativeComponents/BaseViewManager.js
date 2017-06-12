@@ -53,4 +53,56 @@ export default class BaseViewManager {
       }
     }
   }
+
+  manageChildren(view, moveFrom, moveTo, addChildren, addAtIndecies, removeFrom) {
+    const startChildren = [...view.children];
+    const finallyRemoves = [];
+
+    if (moveFrom) {
+      addChildren = addChildren || [];
+      addAtIndecies = addAtIndecies || [];
+      for (let i = 0; i < moveFrom.length; i++) {
+        const viewToMove = startChildren[moveFrom[i]];
+        viewToMove.parentNode.removeChild(viewToMove);
+        startChildren[i] = null;
+        addChildren.append(viewToMove);
+        addAtIndecies.append(moveTo[i]);
+      }
+    }
+
+    if (removeFrom) {
+      for (const i of removeFrom) {
+        const viewToRemove = startChildren[i];
+        viewToRemove.parentNode.removeChild(viewToRemove);
+        startChildren[i] = null;
+        finallyRemoves.push(viewToRemove.getAttribute('data-react-id') | 0);
+      }
+    }
+
+    if (addAtIndecies) {
+      const afterRemove = startChildren.filter(v => v);
+
+      const sortedIndex = [];
+      for (let i = 0; i < addAtIndecies.length; i++) {
+        sortedIndex.push(i);
+      }
+
+      sortedIndex.sort((a, b) => addAtIndecies[a] - addAtIndecies[b]);
+      for (let i = 0; i < addAtIndecies.length; i++) {
+        const id = sortedIndex[i];
+        const child = addChildren[id];
+        const targetId = addAtIndecies[id] - i;  // i views already inserted before.
+        const insertBefore = afterRemove[targetId];
+        if (insertBefore) {
+          view.insertBefore(child, insertBefore);
+        } else {
+          view.appendChild(child);
+        }
+      }
+    }
+    return finallyRemoves;
+  }
+
+  beforeRemoveView(view) {
+  }
 }
