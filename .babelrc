@@ -2,7 +2,6 @@
   "presets": ["react-native"],
   "plugins": [
     "transform-exponentiation-operator",
-    "syntax-decorators",
     "transform-decorators-legacy"
   ]
 }
