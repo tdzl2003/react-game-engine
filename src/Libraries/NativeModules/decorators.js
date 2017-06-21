@@ -31,7 +31,7 @@ export function reactPromiseMethod(target, name, args) {
 
 export const moduleClasses = [];
 
-export function   (name) {
+export function reactModule(name) {
   if (typeof(name) === 'function') {
     name.__reactModuleName = name.__reactModuleName || name.name;
     moduleClasses.push(name);
