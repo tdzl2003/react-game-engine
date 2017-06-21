@@ -100,6 +100,30 @@ function bundleFromRoot(root) {
   return location.protocol + '//' + location.host + path + '/' + root;
 }
 
+function arrayToIds(arr) {
+  if (!arr) {
+    return arr;
+  }
+  const ret = [];
+  arr.forEach((v, i) => {
+    if (v) {
+      ret.push(i);
+    }
+  })
+  return ret;
+}
+
+function wrapError(error) {
+  let ret = {
+    message: error.message,
+  };
+  for (const key of Object.keys(error)) {
+    // TODO: check if error[key] is not a simple type.
+    ret[key] = error[key];
+  }
+  return ret;
+}
+
 export default class Bridge {
   constructor(bundleUrl) {
     this.bundleUrl = bundleFromRoot(bundleUrl);
@@ -116,7 +140,7 @@ export default class Bridge {
       instance.constructor.__reactModuleName || instance.constructor.name,
       instance.constants || null,
       instance.__methods || [],
-      instance.__promiseMethods || [],
+      arrayToIds(instance.__promiseMethods) || [],
       instance.__syncMethods || [],
     ]
   };
@@ -156,9 +180,32 @@ export default class Bridge {
       for (let i = 0; i < moduleIds.length; i++) {
         const module = this.moduleInstances[moduleIds[i]];
         const methodName = module.__methods[methodIds[i]];
+        const isPromise = module.__promiseMethods && (module.__promiseMethods[methodIds[i]]);
+        if (isPromise) {
+          console.log(msg.results);
+          const failCb = args[i].pop();
+          const successCb = args[i].pop();
+          const promise = module[methodName].apply(module, args[i]);
+          promise.then(
+            result => this.invoke(successCb, result),
+            error => this.invoke(failCb, wrapError(error)),
+          );
+          continue;
+        }
 
         module[methodName].apply(module, args[i]);
       }
+    }
+  }
+
+  invoke(id, args) {
+    if (this.worker) {
+      this.worker.postMessage({
+        cmd: 'invoke',
+        id, args,
+      })
+    } else {
+      // TODO: Implement without worker.
     }
   }
 

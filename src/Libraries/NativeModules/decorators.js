@@ -18,15 +18,14 @@ export function reactPromiseMethod(target, name, args) {
   reactMethod(target, name, args);
   let methodId = target.__methods.length - 1;
 
-  if (target.hasOwnProperty('__promiseMethods')){
-    target.__promiseMethods.push(methodId);
-  } else {
+  if (!target.hasOwnProperty('__promiseMethods')){
     Object.defineProperty(target, '__promiseMethods', {
       configurable: true,
       enumerable: false,
-      value: [methodId],
+      value: [],
     })
   }
+  target.__promiseMethods[methodId] = true;
 }
 
 export const moduleClasses = [];

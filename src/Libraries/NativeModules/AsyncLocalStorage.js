@@ -64,17 +64,9 @@ export default class AsyncLocalStorage {
   }
 
   @reactPromiseMethod
-  getItem(key, callback) {
-    return createPromise(() => {
-      return window.localStorage.getItem(key);
-    }, callback);
-  }
-
-  @reactPromiseMethod
-  multiGet(keys, callback) {
-    const promises = keys.map(key => this.getItem(key));
-    const processResult = result => result.map((value, i) => [keys[i], value]);
-    return createPromiseAll(promises, callback, processResult);
+  multiGet(keys) {
+    const result = keys.map(key => [keys, window.localStorage.getItem(key)]);
+    return Promise.resolve(result);
   }
 
   @reactPromiseMethod
