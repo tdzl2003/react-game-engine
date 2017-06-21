@@ -15,7 +15,7 @@ export function reactMethod(target, name, args) {
 }
 
 export function reactPromiseMethod(target, name, args) {
-  ReactMethod(target, name, args);
+  reactMethod(target, name, args);
   let methodId = target.__methods.length - 1;
 
   if (target.hasOwnProperty('__promiseMethods')){
@@ -31,7 +31,7 @@ export function reactPromiseMethod(target, name, args) {
 
 export const moduleClasses = [];
 
-export function reactModule(name) {
+export function   (name) {
   if (typeof(name) === 'function') {
     name.__reactModuleName = name.__reactModuleName || name.name;
     moduleClasses.push(name);
