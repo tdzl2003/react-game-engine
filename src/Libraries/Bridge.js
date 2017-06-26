@@ -33,7 +33,7 @@ onmessage = function(e) {
       importScripts(msg.bundleName);
       Status = 'bundle';
     } catch (e) {
-      console.warn(e.stack);
+      console.info('bridge ws:',e.stack);
       var xmlhttp = new XMLHttpRequest();
       xmlhttp.open("GET", msg.bundleName, true);
       xmlhttp.onreadystatechange=function() {
@@ -41,7 +41,7 @@ onmessage = function(e) {
           var result = JSON.parse(xmlhttp.responseText);
           if (result) {
             if (result.type === 'UnableToResolveError' || result.type === 'NotFoundError') {
-              console.warn(result.message);
+              console.info('bridge ws:',result.message);
             } else {
               if (result.snippet) {
                 // remove all color characters and split the lines for improved clarity
@@ -58,7 +58,7 @@ onmessage = function(e) {
                   }
                 }
               }
-              console.warn(JSON.stringify(result, undefined, 2));
+              console.info('bridge ws:',JSON.stringify(result, undefined, 2));
             }
           }
         }
@@ -80,9 +80,9 @@ onmessage = function(e) {
       try {
         postMessage({cmd: 'exec', results: results});
       } catch (e) {
-        console.warn(e);
-        console.warn(msg);
-        console.warn(JSON.stringify(results))
+        console.info('bridge ws:',e);
+        console.info('bridge ws:',msg);
+        console.info('bridge ws:',JSON.stringify(results))
       }
     }
   }
@@ -182,7 +182,7 @@ export default class Bridge {
         const methodName = module.__methods[methodIds[i]];
         const isPromise = module.__promiseMethods && (module.__promiseMethods[methodIds[i]]);
         if (isPromise) {
-          console.log(msg.results);
+          console.info('bridge main:',msg.results);
           const failCb = args[i].pop();
           const successCb = args[i].pop();
           const promise = module[methodName].apply(module, args[i]);
@@ -198,11 +198,12 @@ export default class Bridge {
     }
   }
 
-  invoke(id, args) {
+  invoke(id, ...args) {
     if (this.worker) {
       this.worker.postMessage({
         cmd: 'invoke',
-        id, args,
+        id,
+        args,
       })
     } else {
       // TODO: Implement without worker.

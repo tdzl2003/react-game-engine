@@ -10,49 +10,40 @@ const mergeLocalStorageItem = (key, value) => {
   window.localStorage.setItem(key, nextValue);
 };
 
-const createPromise = (getValue, callback) => {
+const promisify = (getValue) => {
   return new Promise((resolve, reject) => {
     try {
       const value = getValue();
-      if (callback) {
-        callback(null, value);
-      }
       resolve(value);
     } catch (err) {
-      if (callback) {
-        callback(err);
-      }
       reject(err);
     }
   });
 };
 
-const createPromiseAll = (promises, callback, processResult) => {
+const promisifyAll = (promises, processResult) => {
   return Promise.all(promises).then(
     result => {
-      const value = processResult ? processResult(result) : null;
-      callback && callback(null, value);
-      return Promise.resolve(value);
+      return processResult ? processResult(result) : null;
     },
-    errors => {
-      callback && callback(errors);
-      return Promise.reject(errors);
-    }
+    // errors => {
+    //   return Promise.reject(errors);
+    // }
   );
 };
 
 @reactModule('AsyncLocalStorage')
 export default class AsyncLocalStorage {
   @reactPromiseMethod
-  clear(callback) {
-    return createPromise(() => {
+  clear() {
+    return promisify(() => {
       window.localStorage.clear();
-    }, callback);
+    });
   }
 
   @reactPromiseMethod
-  getAllKeys(callback) {
-    return createPromise(() => {
+  getAllKeys() {
+    return promisify(() => {
       const numberOfKeys = window.localStorage.length;
       const keys = [];
       for (let i = 0; i < numberOfKeys; i += 1) {
@@ -60,52 +51,65 @@ export default class AsyncLocalStorage {
         keys.push(key);
       }
       return keys;
-    }, callback);
+    });
   }
 
   @reactPromiseMethod
   multiGet(keys) {
-    const result = keys.map(key => [keys, window.localStorage.getItem(key)]);
+    // const promises = keys.map(key => this.getItem(key));
+    // const processResult = result => result.map((value, i) => [keys[i], value]);
+    // return promisifyAll(promises, processResult);
+    const result = keys.map(key => [key, window.localStorage.getItem(key)]);
     return Promise.resolve(result);
   }
 
+  // @reactPromiseMethod
+  // getItem(key) {
+  //   return promisify(() =>
+  //     window.localStorage.getItem(key)
+  //   );
+  // }
+
+  // @reactPromiseMethod
+  // setItem(key, value) {
+  //   return promisify(() =>
+  //     window.localStorage.setItem(key, value)
+  //   );
+  // }
+
   @reactPromiseMethod
-  setItem(key, value, callback) {
-    return createPromise(() => {
-      window.localStorage.setItem(key, value);
-    }, callback);
+  multiSet(keyValuePairs) {
+    // const promises = keyValuePairs.map(item => this.setItem(item[0], item[1]));
+    // return promisifyAll(promises);
+
+    keyValuePairs.map(([key, value]) => window.localStorage.setItem(key, value));
+    return Promise.resolve(null);
   }
 
   @reactPromiseMethod
-  multiSet(keyValuePairs, callback) {
-    const promises = keyValuePairs.map(item => this.setItem(item[0], item[1]));
-    return createPromiseAll(promises, callback);
-  }
-
-  @reactPromiseMethod
-  mergeItem(key, value, callback) {
-    return createPromise(() => {
+  mergeItem(key, value) {
+    return promisify(() => {
       mergeLocalStorageItem(key, value);
-    }, callback);
+    });
   }
 
   @reactPromiseMethod
-  multiMerge(keyValuePairs, callback) {
+  multiMerge(keyValuePairs) {
     const promises = keyValuePairs.map(item => this.mergeItem(item[0], item[1]));
-    return createPromiseAll(promises, callback);
+    return promisifyAll(promises);
   }
 
   @reactPromiseMethod
-  removeItem(key, callback) {
-    return createPromise(() => {
+  removeItem(key) {
+    return promisify(() => {
       return window.localStorage.removeItem(key);
-    }, callback);
+    });
   }
 
   @reactPromiseMethod
-  multiRemove(keys, callback) {
+  multiRemove(keys) {
     const promises = keys.map(key => this.removeItem(key));
-    return createPromiseAll(promises, callback);
+    return promisifyAll(promises);
   }
 };
 
