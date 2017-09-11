@@ -1,1 +1,7 @@
 examples
+build
+src
+rn-cli.config.js
+.babelrc
+.editorconfig
+

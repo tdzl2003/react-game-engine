@@ -8,9 +8,11 @@
 
 * Use together with React Native for Native UI
 
-## React Native for Web inside.
+## Web platform support with Worker
 
-Not a polyfill with ReactDOM, but real React Native bridge implementation with `WebWorker` on web!
+Checkout [react-native-web-platform](https://npmjs.com/package/react-native-web-platform) for web support.
+
+You should require `renal/native` in your native entry.
 
 ## Usage of Examples
 
