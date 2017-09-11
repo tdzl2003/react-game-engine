@@ -2,8 +2,8 @@
  * Created by tdzl2003 on 03/06/2017.
  */
 
-import { directEvent, propSetter, domStyle, nativeComponent } from '../../../NativeComponents/decorators';
-import BaseViewManager from '../../../NativeComponents/BaseViewManager';
+import { directEvent, nativeComponent } from 'react-native-web-platform/lib/Libraries/NativeComponents/decorators';
+import RCTViewManager from 'react-native-web-platform/lib/Libraries/NativeComponents/RCTViewManager';
 import MatrixStack from "../matrix";
 import BatchDraw2D from "../BatchDraw2D";
 import AssetManager from "../AssetsManager";
@@ -103,7 +103,7 @@ class GLSurfaceAgent extends GLContainer{
 }
 
 @nativeComponent('GLSurface')
-export default class GLSurfaceManager extends BaseViewManager {
+export default class GLSurfaceManager extends RCTViewManager {
   canvasInstanceRegistry = [];
 
   agentManager;
@@ -115,8 +115,7 @@ export default class GLSurfaceManager extends BaseViewManager {
   }
 
   createView() {
-    const div = document.createElement('div');
-    div.style.display = 'flex';
+    const div = super.createView();
     const canvas = document.createElement('canvas');
     canvas.style.width = '100%';
     canvas.style.height = '100%';
@@ -128,12 +127,6 @@ export default class GLSurfaceManager extends BaseViewManager {
     super.setViewTag(view, tag);
     this.canvasInstanceRegistry[tag] = new GLSurfaceAgent(this.bridge, view.firstChild, tag);
   }
-
-  @domStyle
-  flex;
-
-  @domStyle
-  position;
 
   @directEvent
   onSurfaceCreated;

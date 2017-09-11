@@ -7,11 +7,11 @@ import {
 } from 'react-native';
 import React, {
   Component,
-  PropTypes,
 } from 'React';
 import ColorPropType from 'ColorPropType';
 import normalizeColor from 'normalizeColor';
 import resolveAssetSource from 'resolveAssetSource';
+import PropTypes from 'prop-types';
 
 export const GLLayer2D = requireNativeComponent('GLLayer2D', {
   propTypes: {

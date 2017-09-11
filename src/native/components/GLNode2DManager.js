@@ -2,7 +2,7 @@
  * Created by DengYun on 2017/6/4.
  */
 
-import { prop, nativeComponent } from "../../../NativeComponents/decorators";
+import { prop, nativeComponent } from 'react-native-web-platform/lib/Libraries/NativeComponents/decorators';
 import BaseGLNodeManager, {GLContainer} from "./BaseGLNodeManager";
 import { rotate2D, scale2D, translate2D } from "../matrix";
 

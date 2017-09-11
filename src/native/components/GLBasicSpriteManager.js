@@ -2,9 +2,8 @@
  * Created by DengYun on 2017/6/4.
  */
 
-import { prop, propSetter, nativeComponent } from "../../../NativeComponents/decorators";
+import { prop, propSetter, nativeComponent } from 'react-native-web-platform/lib/Libraries/NativeComponents/decorators';
 import BaseGLNodeManager, { GLBaseNode } from "./BaseGLNodeManager";
-import { rotate2D, scale2D, translate2D } from "../matrix";
 
 function setAnimationInterval(onFrame) {
   let timer;
