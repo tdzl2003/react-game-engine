@@ -1,6 +1,6 @@
 # ReNal Game Engine
 
-## Write games with React
+## Write games with React Native
 
 * Use react-style to write your own game, with mobx or redux if you like.
 

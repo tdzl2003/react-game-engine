@@ -25,6 +25,14 @@ var config = {
   extraNodeModules: {
     'renal': __dirname,
   },
+
+  getProvidesModuleNodeModules() {
+    return [
+      'react-native',
+      'react-native-windows',
+      'react-native-web-platform',
+    ];
+  },
 };
 
 function getRoots() {

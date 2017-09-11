@@ -4,7 +4,10 @@
 
 global.__ASSET_ROOT__ = '../..';
 
-const { Bridge } = require('react-native-web-launcher');
+require('es6-promise').polyfill();
+require('isomorphic-fetch');
+require('renal/native');
+const { Bridge } = require('react-native-web-platform/lib/launch');
 
 const bridge = new Bridge(
   __DEV__ ?
